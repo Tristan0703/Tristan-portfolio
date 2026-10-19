@@ -1,0 +1,26 @@
+{
+  "name": "Smokey Dreamz",
+  "short_name": "Smokey Dreamz",
+  "description": "Smokey Dreamz - Premium Cannabis Dispensary",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c5a059",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/SDLogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "shopping"],
+  "lang": "en-ZA"
+}
