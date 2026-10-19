@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --bone: #F9F8F4;
+  --charcoal: #1A1A1A;
+  --gold: #D4AF37;
+  --gold-light: #E8D48A;
+  --gold-dark: #B8962F;
+  --cream: #FAF8F3;
+  --ivory: #FFFFF0;
+  --platinum: #E5E4E2;
+  --graphite: #383838;
+}
+
+@theme inline {
+  --color-bone: var(--bone);
+  --color-charcoal: var(--charcoal);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-cream: var(--cream);
+  --color-ivory: var(--ivory);
+  --color-platinum: var(--platinum);
+  --color-graphite: var(--graphite);
+  
+  --font-playfair: "Playfair Display", serif;
+  --font-sans: "DM Sans", sans-serif;
+  
+  --ease-luxury: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+body {
+  background: var(--bone);
+  color: var(--charcoal);
+  font-family: "DM Sans", sans-serif;
+}
+
+.glass {
+  background: rgba(249, 248, 244, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.luxury-transition {
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.premium-glow {
+  box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
+}
+
+.luxury-border {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
