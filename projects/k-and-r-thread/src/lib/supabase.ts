@@ -1,9 +1,9 @@
 "use client";
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { requireSupabaseEnv } from "./supabase-env";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
+const { url: supabaseUrl, key: supabaseAnonKey } = requireSupabaseEnv();
 
 let supabase: SupabaseClient | null = null;
 

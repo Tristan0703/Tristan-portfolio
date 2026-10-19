@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { requireSupabaseEnv } from "@/lib/supabase-env";
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -16,11 +17,13 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  const { url: supabaseUrl, key: supabaseAnonKey } = requireSupabaseEnv();
+
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
+    const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        apikey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        apikey: supabaseAnonKey,
       },
     });
 
