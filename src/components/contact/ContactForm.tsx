@@ -5,6 +5,7 @@ import { profile } from "@/data/profile";
 import { buildMailtoUrl, type ContactPayload } from "@/lib/mailto";
 import { hasErrors, validateContact, type ContactErrors } from "@/lib/validation";
 import { cn } from "@/lib/cn";
+import { motion, useReducedMotion } from "framer-motion";
 
 const initialValues: ContactPayload = {
   name: "",
@@ -16,15 +17,17 @@ const initialValues: ContactPayload = {
 };
 
 const inputClass =
-  "w-full border border-line bg-ink-2 px-4 py-3 text-sm text-bone placeholder:text-muted/60 transition-colors focus:border-accent focus:outline-none";
+  "w-full border border-line bg-ink-2 px-4 py-3 text-sm text-bone placeholder:text-muted/60 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 hover:border-line-strong";
 
-const labelClass = "label mb-2 block text-muted";
+const labelClass = "label mb-2 block text-muted transition-colors group-focus-within:text-accent";
 
 export function ContactForm() {
   const [values, setValues] = useState<ContactPayload>(initialValues);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<"idle" | "sent">("idle");
   const [trap, setTrap] = useState("");
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
 
   function update<K extends keyof ContactPayload>(key: K, value: string) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -48,10 +51,17 @@ export function ContactForm() {
     setStatus("sent");
   }
 
+  const Field = reduceMotion ? "div" : motion.div;
+
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
-        <div>
+        <Field
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="group"
+        >
           <label htmlFor="contact-name" className={labelClass}>
             Name
           </label>
@@ -62,19 +72,31 @@ export function ContactForm() {
             autoComplete="name"
             value={values.name}
             onChange={(event) => update("name", event.target.value)}
+            onFocus={() => setFocusedField("name")}
+            onBlur={() => setFocusedField(null)}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "contact-name-error" : undefined}
-            className={cn(inputClass, errors.name && "border-accent")}
+            className={cn(inputClass, errors.name && "border-accent", focusedField === "name" && "ring-2 ring-accent/30")}
             placeholder="Full name"
           />
           {errors.name ? (
-            <p id="contact-name-error" className="label mt-2 text-accent">
+            <motion.p
+              id="contact-name-error"
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="label mt-2 text-accent"
+            >
               {errors.name}
-            </p>
+            </motion.p>
           ) : null}
-        </div>
+        </Field>
 
-        <div>
+        <Field
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="group"
+        >
           <label htmlFor="contact-email" className={labelClass}>
             Email
           </label>
@@ -85,21 +107,33 @@ export function ContactForm() {
             autoComplete="email"
             value={values.email}
             onChange={(event) => update("email", event.target.value)}
+            onFocus={() => setFocusedField("email")}
+            onBlur={() => setFocusedField(null)}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "contact-email-error" : undefined}
-            className={cn(inputClass, errors.email && "border-accent")}
+            className={cn(inputClass, errors.email && "border-accent", focusedField === "email" && "ring-2 ring-accent/30")}
             placeholder="you@company.com"
           />
           {errors.email ? (
-            <p id="contact-email-error" className="label mt-2 text-accent">
+            <motion.p
+              id="contact-email-error"
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="label mt-2 text-accent"
+            >
               {errors.email}
-            </p>
+            </motion.p>
           ) : null}
-        </div>
+        </Field>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <div>
+        <Field
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="group"
+        >
           <label htmlFor="contact-organization" className={labelClass}>
             Organization
           </label>
@@ -110,12 +144,19 @@ export function ContactForm() {
             autoComplete="organization"
             value={values.organization}
             onChange={(event) => update("organization", event.target.value)}
-            className={inputClass}
+            onFocus={() => setFocusedField("organization")}
+            onBlur={() => setFocusedField(null)}
+            className={cn(inputClass, focusedField === "organization" && "ring-2 ring-accent/30")}
             placeholder="Optional"
           />
-        </div>
+        </Field>
 
-        <div>
+        <Field
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+          className="group"
+        >
           <label htmlFor="contact-engagement" className={labelClass}>
             Engagement type
           </label>
@@ -124,7 +165,9 @@ export function ContactForm() {
             name="engagement"
             value={values.engagement}
             onChange={(event) => update("engagement", event.target.value)}
-            className={cn(inputClass, "appearance-none")}
+            onFocus={() => setFocusedField("engagement")}
+            onBlur={() => setFocusedField(null)}
+            className={cn(inputClass, "appearance-none", focusedField === "engagement" && "ring-2 ring-accent/30")}
           >
             <option value="">Select one</option>
             <option value="Technical direction">Technical direction</option>
@@ -132,10 +175,15 @@ export function ContactForm() {
             <option value="3D / VR build">3D / VR build</option>
             <option value="Systems architecture">Systems architecture</option>
           </select>
-        </div>
+        </Field>
       </div>
 
-      <div>
+      <Field
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+        className="group"
+      >
         <label htmlFor="contact-timeline" className={labelClass}>
           Timeline
         </label>
@@ -144,7 +192,9 @@ export function ContactForm() {
           name="timeline"
           value={values.timeline}
           onChange={(event) => update("timeline", event.target.value)}
-          className={cn(inputClass, "appearance-none")}
+          onFocus={() => setFocusedField("timeline")}
+          onBlur={() => setFocusedField(null)}
+          className={cn(inputClass, "appearance-none", focusedField === "timeline" && "ring-2 ring-accent/30")}
         >
           <option value="">Select one</option>
           <option value="Immediate">Immediate</option>
@@ -152,9 +202,14 @@ export function ContactForm() {
           <option value="3–6 months">3–6 months</option>
           <option value="Flexible">Flexible</option>
         </select>
-      </div>
+      </Field>
 
-      <div>
+      <Field
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.35 }}
+        className="group"
+      >
         <label htmlFor="contact-brief" className={labelClass}>
           Scope brief
         </label>
@@ -164,17 +219,24 @@ export function ContactForm() {
           rows={6}
           value={values.brief}
           onChange={(event) => update("brief", event.target.value)}
+          onFocus={() => setFocusedField("brief")}
+          onBlur={() => setFocusedField(null)}
           aria-invalid={Boolean(errors.brief)}
           aria-describedby={errors.brief ? "contact-brief-error" : undefined}
-          className={cn(inputClass, "resize-y", errors.brief && "border-accent")}
+          className={cn(inputClass, "resize-y", errors.brief && "border-accent", focusedField === "brief" && "ring-2 ring-accent/30")}
           placeholder="Systems involved, constraints, and the outcome you need."
         />
         {errors.brief ? (
-          <p id="contact-brief-error" className="label mt-2 text-accent">
+          <motion.p
+            id="contact-brief-error"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="label mt-2 text-accent"
+          >
             {errors.brief}
-          </p>
+          </motion.p>
         ) : null}
-      </div>
+      </Field>
 
       <div aria-hidden="true" className="hidden">
         <label htmlFor="contact-company-url">Leave this field empty</label>
@@ -189,20 +251,32 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 pt-2">
-        <button
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.4 }}
+        className="flex flex-wrap items-center gap-4 pt-2"
+      >
+        <motion.button
           type="submit"
-          className="label inline-flex items-center gap-2.5 border border-accent bg-accent px-5 py-3.5 text-ink transition-colors hover:border-bone hover:bg-bone"
+          className="label inline-flex items-center gap-2.5 border border-accent bg-accent px-5 py-3.5 text-ink transition-all duration-200 hover:border-bone hover:bg-bone hover:shadow-[0_0_24px_rgba(77,216,230,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           Send pitch
           <span aria-hidden="true">→</span>
-        </button>
-        <p aria-live="polite" className="label text-muted">
+        </motion.button>
+        <motion.p
+          aria-live="polite"
+          className="label text-muted"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           {status === "sent"
             ? "Mail client opened with your brief."
             : "Opens in your mail client — no data leaves the browser."}
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </form>
   );
 }
