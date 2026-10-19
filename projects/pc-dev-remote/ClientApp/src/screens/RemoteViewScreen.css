@@ -1,0 +1,303 @@
+/* d:\Privatework\PCremote\ClientApp\src\screens\RemoteViewScreen.css */
+
+.remote-view-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.remote-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #242424;
+  border-bottom: 1px solid #333;
+}
+
+.remote-view-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.status-indicators {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.status-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.error-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #3d1a1a;
+  border-bottom: 1px solid #662222;
+  color: #ff6b6b;
+}
+
+.error-banner button {
+  padding: 6px 12px;
+  background-color: #cc4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.error-banner button:hover {
+  background-color: #dd5555;
+}
+
+.remote-view-main {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.remote-canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* Hidden text input for software keyboard. Small 1px element at top-left
+   of canvas container - only rendered when keyboardVisible (focusable),
+   otherwise display:none so it never blocks canvas. */
+.virtual-keyboard-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  color: transparent;
+  caret-color: transparent;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  /* No pointer-events: none - must be focusable when visible */
+}
+
+.virtual-keyboard-input.focused {
+  display: block;
+}
+
+.btn-keyboard {
+  padding: 10px 24px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-keyboard:hover,
+.btn-keyboard.active {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: white;
+}
+
+.btn-viewport {
+  padding: 10px 24px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-viewport:hover,
+.btn-viewport.active {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: white;
+}
+
+/* Touch indicator / cursor for Android touch devices */
+.touch-indicator {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #00d4aa;
+  background: rgba(0, 212, 170, 0.15);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.15s ease, transform 0.05s ease;
+  box-shadow: 0 0 8px rgba(0, 212, 170, 0.4);
+}
+
+.touch-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00d4aa;
+  transform: translate(-50%, -50%);
+}
+
+.overlay-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 1rem;
+  text-align: center;
+  pointer-events: none;
+  max-width: 80%;
+}
+
+.remote-view-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #242424;
+  border-top: 1px solid #333;
+}
+
+.connection-info {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+.host-settings {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.host-input, .port-input {
+  padding: 6px 10px;
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.host-input {
+  width: 150px;
+}
+
+.port-input {
+  width: 70px;
+}
+
+.btn-save {
+  padding: 6px 12px;
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.btn-save:hover {
+  background-color: #4a4a4a;
+}
+
+.btn-connect, .btn-disconnect {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-connect {
+  background-color: #0066cc;
+  color: white;
+}
+
+.btn-connect:hover {
+  background-color: #0077ee;
+}
+
+.btn-disconnect {
+  background-color: #cc3333;
+  color: white;
+}
+
+.btn-disconnect:hover {
+  background-color: #dd4444;
+}
+
+@media (max-width: 768px) {
+  .remote-view-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .status-indicators {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .remote-view-footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .host-settings {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

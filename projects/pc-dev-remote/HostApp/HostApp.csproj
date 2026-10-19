@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <GUID>...</GUID>
+    <RootNamespace>HostApp</RootNamespace>
+    <AssemblyName>PCRemote.HostApp</AssemblyName>
+    <AssemblyTitle>PCRemote Host Application</AssemblyTitle>
+    <AssemblyDescription>Remote Desktop Host Service</AssemblyDescription>
+    <AssemblyCompany>PCRemote</AssemblyCompany>
+    <AssemblyProduct>PCRemote</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2026</AssemblyCopyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <InformationalVersion>1.0.0</InformationalVersion>
+    <Deterministic>true</Deterministic>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+
+    <!-- Strong-name signing key (SNK). Optional - requires Windows SDK (sn.exe). -->
+    <StrongNameKeyPath Condition="'$(StrongNameKeyPath)' == ''">$(MSBuildProjectDirectory)\HostApp.snk</StrongNameKeyPath>
+    <SignAssembly Condition="Exists('$(StrongNameKeyPath)')">true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
+
+    <!-- Code-signing certificate thumbprint (SHA1). Override via -p:SigningCertificateThumbprint=... or env var SIGNING_CERT_THUMBPRINT -->
+    <SigningCertificateThumbprint Condition="'$(SigningCertificateThumbprint)' == ''">$(SIGNING_CERT_THUMBPRINT)</SigningCertificateThumbprint>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\ClientApp\dist\**" Link="wwwroot\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\ClientApp\dist')" />
+  </ItemGroup>
+
+  <!-- Post-build: Authenticode sign for WDAC/Device Guard (primary requirement) -->
+  <Target Name="SignOutput" AfterTargets="Build" Condition="'$(SigningCertificateThumbprint)' != ''">
+    <PropertyGroup>
+      <SignCmd>powershell.exe -NoProfile -Command "Set-AuthenticodeSignature -FilePath '$(TargetPath)' -Certificate (Get-Item Cert:\CurrentUser\My\$(SigningCertificateThumbprint) -ErrorAction Stop) -TimestampServer 'http://timestamp.digicert.com' -HashAlgorithm SHA256"</SignCmd>
+    </PropertyGroup>
+    <Message Importance="high" Text="Authenticode signing $(TargetFileName) with certificate $(SigningCertificateThumbprint)..." />
+    <Exec Command="$(SignCmd)" WorkingDirectory="$(TargetDir)" IgnoreExitCode="false" />
+    <Message Importance="high" Text="Authenticode signing completed for $(TargetFileName)." />
+  </Target>
+
+  <!-- Verify Authenticode signature after build -->
+  <Target Name="VerifySignatures" AfterTargets="SignOutput" Condition="'$(SigningCertificateThumbprint)' != ''">
+    <PropertyGroup>
+      <VerifyCmd>signtool.exe verify /pa /v "$(TargetPath)"</VerifyCmd>
+    </PropertyGroup>
+    <Exec Command="$(VerifyCmd)" WorkingDirectory="$(TargetDir)" IgnoreExitCode="false" />
+    <Message Importance="high" Text="Authenticode verification passed for $(TargetFileName)." />
+  </Target>
+</Project>

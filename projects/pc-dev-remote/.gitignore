@@ -1,0 +1,91 @@
+# Dependencies
+ClientApp/node_modules/
+HostApp/bin/
+HostApp/obj/
+HostApp/Tests/bin/
+HostApp/Tests/obj/
+
+# Build outputs
+*.exe
+*.dll
+*.pdb
+*.exp
+*.lib
+*.obj
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+*.pem
+*.pfx
+*.key
+*.crt
+*.p12
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary
+*.tmp
+*.temp
+tmp/
+
+# IDE
+.vs/
+*.suo
+*.user
+*.userprefs
+
+# .NET
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# JetBrains
+.idea/
+*.iml
+
+# Rider
+*.sln.dotsettings
+
+# Visual Studio
+*.vs/
+*.ncb
+*.opensdf
+*.sdf
+*.suo
+*.userprefs
+*.userosscache
+
+# NetBird config
+*.netbird*
+
+# Build artifacts
+dist/
+build/
+*.zip
+*.tar.gz
+
+# Cache
+.cache/
+.cache-loader/
+*.tsbuildinfo
+
+# Generated
+*.generated.cs
+*.g.cs

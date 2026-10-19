@@ -1,0 +1,30 @@
+<Project>
+  <PropertyGroup>
+    <!-- Deterministic builds for reproducible signatures -->
+    <Deterministic>true</Deterministic>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+
+    <!-- Assembly metadata for compliance -->
+    <AssemblyCompany>PCRemote</AssemblyCompany>
+    <AssemblyProduct>PCRemote</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2026</AssemblyCopyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Verify all output assemblies have Authenticode signature (when cert provided) -->
+  <Target Name="VerifyAuthenticodeSigned" AfterTargets="Build" Condition="'$(SigningCertificateThumbprint)' != ''">
+    <PropertyGroup>
+      <VerifyCmd>signtool.exe verify /pa /v "$(OutputPath)%(Filename)%(Extension)"</VerifyCmd>
+    </PropertyGroup>
+    <ItemGroup>
+      <BuiltAssemblies Include="$(OutputPath)*.dll;$(OutputPath)*.exe" />
+    </ItemGroup>
+    <Exec Command="$(VerifyCmd)" WorkingDirectory="$(OutputPath)" IgnoreExitCode="false" />
+    <Message Importance="high" Text="Authenticode verification passed for all outputs." />
+  </Target>
+</Project>
