@@ -27,13 +27,7 @@ export const arsenal: ArsenalGroup[] = [
     id: "engines-3d",
     index: "03",
     category: "Engines & 3D",
-    items: ["Unreal Engine 5", "Unity", "Three.js", "A-Frame", "Cinemachine", "Meshy"],
-  },
-  {
-    id: "environment-networking",
-    index: "04",
-    category: "Environment & Networking",
-    items: ["OpenCode", "Ollama", "Qwen", "NetBird"],
+    items: ["Unreal Engine 5", "Unity", "Three.js", "A-Frame", "Cinemachine"],
   },
 ];
 
