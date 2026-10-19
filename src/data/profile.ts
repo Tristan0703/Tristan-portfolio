@@ -6,7 +6,7 @@ export const profile: Profile = {
   name: "Tristan Lincoln Niekerk",
   role: "Technical Director & Software Developer",
   summary:
-    "I architect immersive environments and engineer digital architectures that solve real-world operational challenges. I specialize in full-stack web infrastructure, interactive visual systems, and virtual reality software development.",
+    "I build full-stack web systems, interactive 3D applications, and VR training simulations. 15 years writing production code across React/Next.js, .NET, Unreal Engine, and Unity. Currently contracting on architecture, 3D web, and simulation projects.",
   email: "tristanniekerk@gmail.com",
   github: "https://github.com/Tristan0703",
   repository: "https://github.com/Tristan0703/Tristan-portfolio",
@@ -23,5 +23,5 @@ export const profile: Profile = {
     external: false,
   },
   metaDescription:
-    "Technical Director and Software Developer building full-stack web infrastructure, interactive visual systems, and virtual reality software for real-world operational challenges.",
+    "Technical Director and Software Developer building full-stack web infrastructure, interactive 3D systems, and VR training simulations. 15 years production experience across React, .NET, Unreal Engine, and Unity.",
 };
