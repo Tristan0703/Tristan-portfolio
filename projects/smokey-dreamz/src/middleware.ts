@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { requireSupabaseEnv } from "@/utils/supabase/env";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://igfnlqmevjanfpcxxanh.supabase.co";
-const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_vMWqJ9fEmL5qMKyvkipFww_0YKhLmNm";
+const { url: SUPABASE_URL, key: ANON_KEY } = requireSupabaseEnv();
 const SESSION_COOKIE_NAME = `sb-${encodeURIComponent(SUPABASE_URL)}-auth-token`;
 
 function decodeJwtPayload(token: string): Record<string, unknown> | null {

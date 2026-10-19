@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getMember } from "@/components/membership";
 import { Search, User, Calendar, CheckCircle, XCircle, Clock, MapPin, Lock } from "lucide-react";
+import { requireSupabaseEnv } from "@/utils/supabase/env";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
+const { url: SUPABASE_URL, key: ANON_KEY } = requireSupabaseEnv();
 
 interface MemberData {
   id: string;

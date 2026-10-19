@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Check, Mail, Lock, User, ArrowRight, CreditCard, Phone, Eye, EyeOff } from "lucide-react";
 import { signUp, signInWithPassword, getMember } from "@/components/membership";
+import { requireSupabaseEnv } from "@/utils/supabase/env";
 
 export default function WelcomePage() {
   const [ageConfirmed, setAgeConfirmed] = useState(false);
@@ -98,8 +99,7 @@ export default function WelcomePage() {
           }
 
           if (resetMode) {
-            const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-            const anonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
+            const { url: supabaseUrl, key: anonKey } = requireSupabaseEnv();
             
             try {
               const response = await fetch(`${supabaseUrl}/auth/v1/recover`, {
@@ -149,8 +149,7 @@ const memberId = result?.member?.id;
         document.cookie = `age-verified=true; path=/; max-age=${60 * 60 * 24 * 365}`;
 
         if (memberId) {
-          const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-          const anonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
+          const { url: supabaseUrl, key: anonKey } = requireSupabaseEnv();
           try {
             const response = await fetch(`${supabaseUrl}/rest/v1/members?id=eq.${memberId}&select=is_admin`, {
               headers: { 'apikey': anonKey, 'Authorization': `Bearer ${anonKey}` },

@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, Mail, Phone, CreditCard, ArrowLeft, Check, AlertCircle, Loader2 } from "lucide-react";
 import { getMember, Member } from "@/components/membership";
+import { requireSupabaseEnv } from "@/utils/supabase/env";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
+const { url: SUPABASE_URL, key: ANON_KEY } = requireSupabaseEnv();
 
 export default function EditProfilePage() {
   const router = useRouter();

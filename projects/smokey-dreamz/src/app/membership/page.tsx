@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getMember, logout, Member } from "@/components/membership";
 import { createClient } from "@/utils/supabase/client";
+import { requireSupabaseEnv } from "@/utils/supabase/env";
 
 export default function MembershipPage() {
   const [member, setMember] = useState<Member | null>(null);
@@ -21,8 +22,7 @@ export default function MembershipPage() {
 
       if (currentMember) {
         // Check admin via direct fetch
-        const supabaseUrl = 'https://igfnlqmevjanfpcxxanh.supabase.co';
-        const anonKey = 'sb_publishable_vMWqJ9fEmL5qMKyvkipFww_0YKhLmNm';
+        const { url: supabaseUrl, key: anonKey } = requireSupabaseEnv();
         
         try {
           const response = await fetch(`${supabaseUrl}/rest/v1/members?id=eq.${currentMember.id}&select=is_admin`, {

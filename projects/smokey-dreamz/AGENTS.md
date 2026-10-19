@@ -67,8 +67,12 @@ src/
 ### Environment Variables
 ```
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 ```
+
+The POS bridge (`scripts/randpark-bridge.py`) and `scripts/test-supabase.py` read
+`SUPABASE_URL` and `SUPABASE_ANON_KEY`, plus an optional `SUPABASE_SERVICE_KEY` for the
+bridge. No credentials are committed — set these per environment.
 
 ## Key Features
 
