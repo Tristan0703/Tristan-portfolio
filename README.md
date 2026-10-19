@@ -1,60 +1,71 @@
-# Tristan's Portfolio
+# Tristan Lincoln Niekerk — Portfolio
 
-Welcome — this repository collects select projects from my work and contributions for public viewing. Each project is included as a subfolder and contains the source code and a short description. Note: live demos are not available for these projects and screenshots are not included.
+Portfolio site for my work as a Technical Director and Software Developer: full-stack web
+infrastructure, interactive visual systems, and virtual reality software. The site also
+carries cleaned source snapshots of the public projects referenced throughout it.
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router) with React 19
+- **Styling:** Tailwind CSS 4
+- **Animation:** Framer Motion
+- **3D:** Three.js (hero lattice), dynamically imported and client-only
+- **Data:** Supabase / PostgreSQL (in the showcased projects)
+- **Testing:** Vitest
+
+## Structure
+
+```
+src/
+  app/                  # routes, layout, metadata, sitemap, robots, OG image
+  components/           # hero, arsenal, projects, contact, layout, ui
+  data/                 # typed content layer, no UI
+  lib/                  # mailto builder, validation, helpers
+projects/               # independent project sources (excluded from site build)
+```
+
+Content lives in `src/data/`. Editing `profile.ts`, `arsenal.ts`, `projects.ts`, or
+`scopes.ts` updates the site without touching components.
 
 ## Projects
 
-### SmokeyDreamz
-- Source: https://github.com/Trisproj/SmokeyDreamz
-- Live: No live demo available
-- Tech: TypeScript, Next.js (inferred)
-- Short description: The Smokey Dreamz website — a TypeScript-powered web project previously deployed on Vercel. The folder contains the website source and assets (if present).
+| Directory | Project | Stack | Card |
+| --- | --- | --- | --- |
+| `projects/k-and-r-thread` | K&R Thread web application | Next.js 16, React 19, Supabase, Tailwind 4 | Proof-of-Concept Booking Architecture |
+| `projects/smokey-dreamz` | Smokey Dreamz multi-branch retail platform | Next.js 16, Supabase, PWA, Cloudflare Workers | Retail Workflow Systems |
+| `projects/pc-dev-remote` | Remote desktop system | .NET 8 / C#, React Native, NetBird | Heavy Hitters (Client Work) |
 
-### K-and-R-Thread
-- Source: https://github.com/Tristan0703/K-and-R-Thread-
-- Live: No live demo available
-- Tech: TypeScript
-- Short description: The K-and-R-Thread application — a TypeScript project with frontend code and deployment previously configured to Vercel.
+These are source snapshots cleaned of dependencies and build output. Fabric imagery in
+`projects/k-and-r-thread/public/fabrics/` is stored with Git LFS. No credentials are
+committed; Supabase keys are read from environment variables.
 
-### PC-Dev-remote
-- Source: https://github.com/Tristan0703/PC-Dev-remote-
-- Live: No live demo available
-- Tech: C#
-- Short description: PC developer tooling and remote management utilities written in C#.
+## Commands
 
-## How this repo was created
-This repository was created as a public portfolio to showcase my projects. The project folders were copied from the source repositories and added here as a consolidated view. Note: these copies do not preserve full git history from the originals.
+```bash
+npm run dev         # development server
+npm run build       # production build
+npm start           # serve the production build
+npm run lint        # eslint
+npm run typecheck   # tsc --noEmit
+npm test            # vitest run
+```
 
-If you prefer the original history preserved, I can provide instructions to fork/import or to mirror each repository with its commits.
+## Configuration
 
-## Running projects locally (general guidance)
-Each project may have its own README with exact instructions inside the project folder. General steps:
+The site reads one optional environment variable:
 
-1. Clone this repo:
+```
+NEXT_PUBLIC_SITE_URL=https://your-domain.example
+```
 
-   git clone https://github.com/Tristan0703/Tristan-portfolio.git
-
-2. Enter the project folder you want to run, for example:
-
-   cd K-and-R-Thread
-
-3. Follow the project's own README for install and run steps. Common commands:
-
-- JavaScript/TypeScript projects:
-
-  npm install
-  npm run dev
-
-- .NET / C# projects:
-
-  dotnet build
-  dotnet run
-
-## Screenshots
-No screenshots are included. If you add screenshots later, place images in each project folder (e.g. `K-and-R-Thread/screenshots/`) and update the project's README to reference them.
-
-## License
-This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+It falls back to `http://localhost:3000` when unset and is used for canonical URLs,
+sitemap, and robots.
 
 ## Contact
-Tristan — https://github.com/Tristan0703
+
+- Email: tristanniekerk@gmail.com
+- GitHub: https://github.com/Tristan0703
+
+## License
+
+MIT. See [LICENSE](LICENSE) for details.
