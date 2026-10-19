@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #08090b;
+  --color-ink-2: #0b0d10;
+  --color-panel: #0f1216;
+  --color-panel-2: #12171d;
+  --color-line: #1c2229;
+  --color-line-strong: #2b333d;
+  --color-bone: #e9ebe8;
+  --color-muted: #8b929a;
+  --color-accent: #4dd8e6;
+  --color-accent-dim: #1f6a73;
+
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --animate-marquee: marquee 44s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    background-image:
+      radial-gradient(120% 70% at 50% -10%, rgba(77, 216, 230, 0.07), transparent 62%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      76px 76px,
+      76px 76px;
+    background-attachment: scroll, fixed, fixed;
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgba(77, 216, 230, 0.28);
+    color: var(--color-bone);
+  }
+
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@utility hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.045) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@utility rule-x {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-line-strong) 15%,
+    var(--color-line-strong) 85%,
+    transparent
+  );
+}
+
+@utility ticker-paused {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
